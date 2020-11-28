@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+    a(href='/bicicletas') Volver
+
+    br
+    br
+    br
+
+    h1 Mostrando Bicicleta con ID:#{bici.id}
+
+    br
+    label(for="color") Color:
+    value= bici.color
+    br
+    label(for="modelo") Modelo:
+    value= bici.modelo
+    br
+    label(for="lat") Latitud:
+    value= bici.ubicacion[0]
+    br
+    label(for="lng") Longitud:
+    value= bici.ubicacion[1]
