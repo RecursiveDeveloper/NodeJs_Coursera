@@ -32,7 +32,7 @@ Bicicleta.removeById = function(aBiciId) {
     }
 }
 
-var a = new Bicicleta(1,'rojo','urbana',[7.074291, -73.095725]);
+/*var a = new Bicicleta(1,'rojo','urbana',[7.074291, -73.095725]);
 var b = new Bicicleta(2,'blanca','urbana',[7.058004, -73.087066]);
 var c = new Bicicleta(3,'azul','urbana',[7.087353, -73.109521]);
 var d = new Bicicleta(4,'amarilla','urbana',[7.075564, -73.091438]);
@@ -40,6 +40,6 @@ var d = new Bicicleta(4,'amarilla','urbana',[7.075564, -73.091438]);
 Bicicleta.add(a);
 Bicicleta.add(b);
 Bicicleta.add(c);
-Bicicleta.add(d);
+Bicicleta.add(d);*/
 
 module.exports = Bicicleta;
