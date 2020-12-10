@@ -36,7 +36,7 @@ describe('Testing Usuarios', function() {
         it('Desde existir la reserva', (done) => {
             const usuario = new Usuario({nombre: 'Ezequiel'});
             usuario.save();
-            const bicicleta = new Bicicleta({code: 1, color: 'verde', modelo: 'urbana'});
+            const bicicleta = new Bicicleta({color: 'verde', modelo: 'urbana'});
             bicicleta.save();
 
             var hoy = new Date();
@@ -44,17 +44,15 @@ describe('Testing Usuarios', function() {
             mañana.setDate(hoy.getDate()+1);
             usuario.reservar(bicicleta.id, hoy, mañana, function(err, reserva) {
                 Reserva.find({}).populate('bicicleta').populate('usuario').exec(function(err, reservas) {
-                    console.log(reservas[0]);
+                    //console.log(reservas[0]);
                     expect(reservas.length).toBe(1);
                     expect(reservas[0].diasDeReserva()).toBe(2);
-                    expect(reservas[0].bicicleta.code).toBe(1);
+                    expect(reservas[0].bicicleta._id).toEqual(bicicleta._id);
                     expect(reservas[0].usuario.nombre).toBe(usuario.nombre);
                     done();
                 });
             });
         });
     });
-
-
 
 });
