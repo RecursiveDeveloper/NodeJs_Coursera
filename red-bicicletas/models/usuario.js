@@ -7,7 +7,7 @@ const crypto = require('crypto');
 const uniqueValidator = require('mongoose-unique-validator');
 
 const Token = require('../models/token');
-const mailer = require('mailer'); 
+const mailer = require('../mailer/mailer'); 
 
 const validateEmail = function(email) {
     const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
@@ -75,7 +75,7 @@ usuarioSchema.methods.enviar_email_bienvenida = function(cb) {
             from: 'no-reply@redbicicletas.com',
             to: email_destination,
             subject: 'verificacion de cuenta',
-            text: 'Hola, \n\n' + 'Por favor, para verificar su cuenta haga click en este link: \n' + 'http://localhost:3000' + '\/token/confirmation\/' + token.token + '.\n'
+            text: 'Hola, \n\n' + 'Por favor, para verificar su cuenta haga click o copie y pegue en la barra de búsqueda de su navegador este link: \n\n' + 'http://localhost:3000'+'\/token/confirmation\/'+token.token+'\n'
         };
 
         mailer.sendMail(mailOptions, function(err) {
