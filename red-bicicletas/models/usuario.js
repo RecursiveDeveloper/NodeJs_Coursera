@@ -32,7 +32,6 @@ var usuarioSchema = new Schema({
     password: {
         type: String,
         required: [true, 'El password es obligatorio'],
-        lowercase: true
     },
     passwordResetToken: String,
     passwordResetTokenExpires: Date,
@@ -52,6 +51,10 @@ usuarioSchema.pre('save', function(next) { //Se ejecuta antes de llamar al save(
 });
 
 usuarioSchema.methods.validPassword = function(password) {
+    /*console.log('\n Revision Password');
+    console.log(bcrypt.compareSync(password, this.password));
+    console.log(password + " ------ " + this.password);
+    console.log('\n');*/
     return bcrypt.compareSync(password, this.password);
 }
 

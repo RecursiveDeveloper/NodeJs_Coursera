@@ -1,7 +1,9 @@
 var Bicicleta = require('../models/bicicleta');
 
 exports.bicicleta_list = function(req, res) {
-    res.render('bicicletas/index', {bicis: Bicicleta.allBicis});
+    Bicicleta.allBicis(function(err, bicis) {
+        res.render('bicicletas/index', {bicis: bicis});
+    });
 }
 
 exports.bicicleta_create_get = function(req, res) {
