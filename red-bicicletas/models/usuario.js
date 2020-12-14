@@ -44,24 +44,36 @@ var usuarioSchema = new Schema({
 usuarioSchema.plugin(uniqueValidator, { message: 'El {PATH} ya existe con otro usuario'});
 
 usuarioSchema.pre('save', function(next) { //Se ejecuta antes de llamar al save()
-    if(this.isModified('password')){
-        this.password = bcrypt.hashSync(this.password, saltRounds);
+    try {
+        if(this.isModified('password')){
+            this.password = bcrypt.hashSync(this.password, saltRounds);
+        }
+        next();
+    } catch (error) {
+        return console.log(error);
     }
-    next();
 });
 
 usuarioSchema.methods.validPassword = function(password) {
-    /*console.log('\n Revision Password');
-    console.log(bcrypt.compareSync(password, this.password));
-    console.log(password + " ------ " + this.password);
-    console.log('\n');*/
-    return bcrypt.compareSync(password, this.password);
+    try {
+        /*console.log('\n Revision Password');
+        console.log(bcrypt.compareSync(password, this.password));
+        console.log(password + " ------ " + this.password);
+        console.log('\n');*/
+        return bcrypt.compareSync(password, this.password);
+    } catch (error) {
+        return console.log(error);
+    }
 }
 
 usuarioSchema.methods.reservar = function(biciId, desde, hasta, cb){
-    var reserva = new Reserva({usuario: this._id, bicicleta: biciId, desde: desde, hasta:hasta});
-    console.log(reserva);
-    reserva.save(cb);
+    try {
+        var reserva = new Reserva({usuario: this._id, bicicleta: biciId, desde: desde, hasta:hasta});
+        console.log(reserva);
+        reserva.save(cb);
+    } catch (error) {
+        return console.log(error);
+    }
 }
 
 usuarioSchema.statics.findByCode = function(aCode, cb) {

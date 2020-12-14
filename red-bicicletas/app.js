@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -34,11 +36,17 @@ app.use(session({
 }));
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://localhost/red_bicicletas';
-mongoose.connect(mongoDB, { useNewUrlParser: true});
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
+//var mongoDB = 'mongodb://localhost/red_bicicletas';
+//var mongoDB = 'mongodb+srv://Admin:KEhVyS8LZcxYTZ5a@cluster0.bit5a.mongodb.net/Cluster0?retryWrites=true&w=majority'
+
+var mongoDB = process.env.MONGO_URI;
+
+mongoose.connect(mongoDB, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true, 
+  useFindAndModify: false,
+  useCreateIndex: true
+});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error: '));
