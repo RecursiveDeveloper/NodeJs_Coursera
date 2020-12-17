@@ -19,7 +19,7 @@ if(process.env.NODE_ENV === 'production') {
         }
         mailConfig = sgTransport(options);
     }else{
-        const mailConfig = {
+        mailConfig = {
             host: 'smtp.ethereal.email',
             port: 587,
             auth: {
