@@ -10,6 +10,7 @@
   "dependencies": {
     "bcrypt": "^5.0.0",
     "bootstrap": "^4.5.3",
+    "connect-mongodb-session": "^2.4.1",
     "cookie-parser": "~1.4.4",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
@@ -23,9 +24,13 @@
     "mongoose": "^5.11.8",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "~1.9.1",
+    "newrelic": "^7.0.2",
     "nodemailer": "^6.4.17",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "passport": "^0.4.1",
+    "passport-facebook-token": "^4.0.0",
+    "passport-google-oauth2": "^0.2.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "pug": "2.0.0-beta11",
     "request": "^2.88.2"

@@ -1,3 +1,4 @@
+require('newrelic');
 require('dotenv').config();
 
 var createError = require('http-errors');
@@ -8,6 +9,7 @@ var logger = require('morgan');
 const passport = require('./config/passport');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const Usuario = require('./models/usuario');
 const Token = require('./models/token');
@@ -21,12 +23,22 @@ var bicicletasAPIRouter = require('./routes/api/bicicletas');
 var usuariosAPIRouter = require('./routes/api/usuarios');
 var authAPIRouter = require('./routes/api/auth');
 
-const store = new session.MemoryStore;
+let store;
+if(process.env.NODE_ENV === 'development') {
+  store = new session.MemoryStore;
+}else{
+  store = new MongoDBStore({
+    uri: process.env.MONGO_URI,
+    collection: 'sessions'
+  });
+  store.on('error', function(error) {
+    assert.ifError(error);
+    assert.ok(false);
+  });
+}
 
 var app = express();
-
 app.set('secretKey', 'jwt_pwd_!!223344');
-
 app.use(session({
   cookie: { maxAge: 240 * 60 * 60 * 1000},
   store: store,
@@ -36,6 +48,7 @@ app.use(session({
 }));
 
 var mongoose = require('mongoose');
+const { assert } = require('console');
 //var mongoDB = 'mongodb://localhost/red_bicicletas';
 //var mongoDB = 'mongodb+srv://Admin:KEhVyS8LZcxYTZ5a@cluster0.bit5a.mongodb.net/Cluster0?retryWrites=true&w=majority'
 
@@ -146,6 +159,36 @@ app.use('/privacy_policy', function(req, res) {
 app.use('/googlef722918cbd668a00', function(req, res) {
   res.sendFile('public/googlef722918cbd668a00.html', { root: __dirname });
 });
+
+/*app.get('/auth/google',
+  passport.authenticate('google', { scope: [
+    'https://www.googleapis.com/auth/plus.login',
+    'https://www.googleapis.com/auth/plus.profile.emails.read'
+  ]})
+);
+
+app.get('/auth/google/callback', passport.authenticate('google', { 
+    failureRedirect: '/error',
+    successRedirect: '/'
+  })
+);*/
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: [
+    'https://www.googleapis.com/auth/plus.login',
+
+    'https://www.googleapis.com/auth/userinfo.email',
+
+    'https://www.googleapis.com/auth/userinfo.profile'
+  ]
+  })
+);
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        successRedirect: '/',
+        failureRedirect: '/error'
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

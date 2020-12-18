@@ -9,12 +9,14 @@ exports.usuarios_list = function(req, res) {
 }
 
 exports.usuarios_create = function(req, res) {
-    var usuario = new Usuario({nombre: req.body.nombre, email: req.body.email, password: req.body.password});
+    if(req.body.nombre != 'default' || req.body.email != 'default@gmail.com' || req.body.password != 'default') {
+        var usuario = new Usuario({nombre: req.body.nombre, email: req.body.email, password: req.body.password});
 
-    usuario.save(function(err) {
-        if(err) return res.status(500).json(err);
-        res.status(200).json(usuario);
-    });
+        usuario.save(function(err) {
+            if(err) return res.status(500).json(err);
+            res.status(200).json(usuario);
+        });
+    }
 }
 
 exports.usuario_reservar = function(req, res) {
@@ -31,5 +33,5 @@ exports.usuario_reservar = function(req, res) {
 }
 
 //Usuario de ejemplo
-const usuario = new Usuario({nombre: 'Ezequiel'});
-usuario.save();
+/*const usuario = new Usuario({nombre: 'Ezequiel'});
+usuario.save();*/
